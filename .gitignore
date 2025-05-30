@@ -1,0 +1,75 @@
+# Environment variables
+# .env not ignored
+.env*.local
+
+# Concatenated doc files
+all_docs.txt
+project_tree.txt
+
+# Next.js
+/.next/
+/out/
+/build/
+
+# Dependencies
+/node_modules/
+/.pnp
+.pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Package manager lock files (uncomment the ones you don't use)
+#package-lock.json
+#yarn.lock
+#pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel
+
+# Testing
+/coverage/
+/test-results/
+/playwright-report/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# VS Code (allow useful settings, ignore the rest)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Temporary files & folders
+tmp/
+temp/
+.cache/
+.parcel-cache/
+
+# Editor swap/backup files
+*.swp
+*.swo
+*~
+
+# Bundle analyzer
+.next-bundle-analyzer/
