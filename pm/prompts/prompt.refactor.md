@@ -4,7 +4,7 @@ You are helping refactor code while maintaining functionality and improving code
 
 **Guidelines**:
 - Follow architectural patterns in pm/design/architecture.md
-- Maintain consistency with pm/design/components_guide.md
+- Maintain consistency with pm/design/components-guide.md
 - Apply coding standards from pm/guides/
 - Preserve existing functionality and tests
 

@@ -89,7 +89,7 @@ export default function DashboardPage() {
 
 #### Dynamic Routes (`src/app/blog/[slug]/page.tsx`)
 
-Handles routes like `/blog/my-post` or `/blog/another-article`.
+- Handles routes like `/blog/my-post` or `/blog/another-article`.
 
 ```typescript
 // src/app/blog/[slug]/page.tsx
@@ -106,7 +106,7 @@ export default function BlogPage({ params }: BlogPageProps) {
   );
 }
 ```
-*   **`params`**: Contains dynamic route segments (e.g., `slug`).
+**`params`**: Contains dynamic route segments (e.g., `slug`).
 
 ### 4. Server Components vs. Client Components
 
@@ -157,6 +157,7 @@ export default function Counter() {
   );
 }
 ```
+
 *   **Usage:** Embed Client Components within Server Components as needed.
 *   **Composition Note:** It's important to understand that Server Components can render Client Components, and crucially, Client Components can accept and render Server Components as `children`. This allows you to "punch a hole" through a client boundary to include server-rendered content deeper in your tree, optimizing initial load performance.
 
@@ -175,57 +176,7 @@ export default function Counter() {
 | **Static + ISR** (Incremental Static Regeneration) | `next: { revalidate: 60 }` (seconds)                                          | Cache auto-refreshes after timeout         |
 | **Tag-based purge** (Edge **or** Node)             | `next: { tags: ['products'] }` + `revalidateTag('products')`                  | Granular purge without a full rebuild      |
 
-> ¹ `dynamic: 'force-static'` is a **file-level export** at the top of a page or Route Handler.
-
-```typescript
-// app/products/page.tsx — React Server Component
-export const dynamic = 'force-static';   // opt-in to full static caching (remove if live)
-
-// Domain types
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-}
-
-/** Static roster (cached until rebuild or revalidate) */
-async function getProductsStatic(): Promise<Product[]> {
-  const res = await fetch('https://api.example.com/products', {
-    cache: 'force-cache',          // ✅ explicit opt-in
-  });
-  if (!res.ok) throw new Error('Failed to fetch products'); // ISR will serve last good cache
-  return res.json<Product[]>();    // keep TypeScript safety
-}
-
-/** Live roster (never cached) */
-async function getProductsLive(): Promise<Product[]> {
-  const res = await fetch('https://api.example.com/products'); // ⬅ default no-store
-  if (!res.ok) throw new Error('Failed to fetch products');
-  return res.json<Product[]>();
-}
-
-export default async function ProductsPage() {
-  // during dev we prefer live data; in prod we prefer static
-  const products =
-    process.env.NODE_ENV === 'development'
-      ? await getProductsLive()
-      : await getProductsStatic();
-
-  return (
-    <div className="p-8">
-      <h2 className="text-3xl font-semibold">Products</h2>
-      <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((p) => (
-          <li key={p.id} className="border p-4 rounded-lg">
-            <h3 className="text-xl font-bold">{p.name}</h3>
-            <p>${p.price.toFixed(2)}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-```
+¹ `dynamic: 'force-static'` is a **file-level export** at the top of a page or Route Handler.
 
 ##### 5.2 Field notes & gotchas
 
@@ -237,128 +188,26 @@ export default async function ProductsPage() {
 
 #### Client Components (For interactive data, e.g., search, pagination)
 
-Use `useEffect` with `fetch` or a dedicated data fetching library (e.g., SWR, React Query).
-
-```typescript
-// src/components/ClientProductList.tsx
-'use client';
-import { useState, useEffect } from 'react';
-
-interface Product { /* ... same as above */ }
-
-export default function ClientProductList() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch('/api/products'); // Fetch from an internal API Route for client-side reads/interactions
-        if (!res.ok) throw new Error('Failed to fetch products');
-        const data: Product[] = await res.json();
-        setProducts(data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProducts();
-  }, []);
-
-  if (loading) return <p>Loading products...</p>;
-  if (error) return <p className="text-red-500">Error: {error}</p>;
-
-  // Render products (similar to Server Component example)
-  return (
-    <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {products.map(product => (
-        <li key={product.id} className="border p-4 rounded-lg">
-          <h3 className="text-xl font-bold">{product.name}</h3>
-          <p>${product.price.toFixed(2)}</p>
-        </li>
-      ))}
-    </ul>
-  );
-}
-```
-*   For data *mutations* initiated from Client Components (e.g., form submissions), Server Actions (`'use server'`) are generally preferred over fetching to an internal API Route Handler, as they offer closer integration with React's form handling and data revalidation.
+- Use `useEffect` with `fetch` or a dedicated data fetching library (e.g., SWR, React Query).
+- For data *mutations* initiated from Client Components (e.g., form submissions), Server Actions (`'use server'`) are generally preferred over fetching to an internal API Route Handler, as they offer closer integration with React's form handling and data revalidation.
 
 ### 6. Navigation
 
-Use the `next/link` component for client-side navigation.
-
-```typescript
-// src/app/page.tsx (or any component)
-import Link from 'next/link';
-
-export default function HomePage() {
-  return (
-    <main>
-      <h1>Home</h1>
-      <nav>
-        <Link href="/about" className="text-blue-500 hover:underline mr-4">About Us</Link>
-        <Link href="/dashboard" className="text-blue-500 hover:underline">Dashboard</Link>
-      </nav>
-    </main>
-  );
-}
-```
-*   **`Link`**: Prefetches pages for faster transitions.
-*   **`useRouter` (Client Components only):** For programmatic navigation.
-    ```typescript
-    'use client';
-    import { useRouter } from 'next/navigation';
-    export default function MyButton() {
-      const router = useRouter();
-      return <button onClick={() => router.push('/settings')}>Go to Settings</button>;
-    }
-    ```
+- Use the `next/link` component for client-side navigation.
 
 ### 7. Styling
 
-*   **Global CSS:** `src/app/globals.css` imported in `src/app/layout.tsx`.
-*   **Tailwind CSS:** (If chosen during setup) Use utility classes directly in JSX.
-*   **CSS Modules:** For component-specific styles (`ComponentName.module.css`).
+- **Global CSS:** `src/app/globals.css` imported in `src/app/layout.tsx`.
+- **Tailwind CSS:** (If chosen during setup) Use utility classes directly in JSX.
+- **CSS Modules:** For component-specific styles (`ComponentName.module.css`).
 
 ### 8. API Routes (Route Handlers)
 
-Create backend API endpoints within your Next.js project.
-Files in `src/app/api/[folder]/route.ts` handle HTTP methods (GET, POST, PUT, DELETE).
+- Create backend API endpoints within your Next.js project.
+- Files in `src/app/api/[folder]/route.ts` handle HTTP methods (GET, POST, PUT, DELETE).
 
-```typescript
-// src/app/api/products/route.ts
-import { NextResponse } from 'next/server';
-
-const products = [
-  { id: 1, name: 'Laptop', price: 1200 },
-  { id: 2, name: 'Mouse', price: 25 },
-];
-
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const search = searchParams.get('search');
-
-  let filteredProducts = products;
-  if (search) {
-    filteredProducts = products.filter(p =>
-      p.name.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-
-  return NextResponse.json(filteredProducts);
-}
-
-export async function POST(request: Request) {
-  const newProduct = await request.json();
-  // In a real app, you'd save newProduct to a database
-  products.push({ ...newProduct, id: products.length + 1 }); // Simple example
-  return NextResponse.json({ message: 'Product added', product: newProduct }, { status: 201 });
-}
-```
-*   **`NextResponse`**: Utility for sending JSON responses.
-*   **Dynamic API Routes:** `src/app/api/products/[id]/route.ts` for `/api/products/1`.
+- `NextResponse`: Utility for sending JSON responses
+- Dynamic API Routes: `src/app/api/products/[id]/route.ts` for `/api/products/1`
 
 ### 9. Building and Deployment
 

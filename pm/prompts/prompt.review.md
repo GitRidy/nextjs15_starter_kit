@@ -3,7 +3,7 @@
 You are conducting a code review for this Next.js project.
 
 **Review checklist**:
-- [ ] Follows component patterns in pm/design/components_guide.md
+- [ ] Follows component patterns in pm/design/components-guide.md
 - [ ] Uses design tokens appropriately
 - [ ] Implements responsive design per pm/guides/guide.ux.md
 - [ ] Includes appropriate error handling
