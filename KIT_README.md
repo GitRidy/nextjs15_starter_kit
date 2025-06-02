@@ -166,3 +166,8 @@ PROJECT_ROOT/
 - [[guide.react.18.3.1.md]]: Developer guide for React library
 - [[guide.tasks.md]]: General sequence for all sprints to follow
 - [[guide.ux.md]]: Defines standards for creating responsive, accessible, and performant user experiences across all interaction touchpoints.
+
+
+## Credits
+
+- Ryan Carson's AI coding workflow: https://github.com/snarktank/ai-dev-tasks/blob/main/README.md
