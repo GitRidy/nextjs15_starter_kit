@@ -164,34 +164,61 @@ export default function Counter() {
 
 #### Server Components (Recommended for initial data)
 
-Fetch data directly using `async`/`await`. `fetch` is automatically extended by Next.js for caching and revalidation.
+> **Breaking change** Starting with **Next 15**, _every_ `fetch()` call, **GET** Route Handler, and client navigation is treated as `cache: 'no-store'` unless you explicitly opt-in to caching. [Next.js](https://nextjs.org/blog/next-15?utm_source=chatgpt.com)
+
+##### 5.1 Choose the right caching mode
+
+| Your intent                                        | How to opt-in                                                                 | Resulting behaviour                        |
+| -------------------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------ |
+| **Fully dynamic** – always refetch                 | _Do nothing_ (default)                                                        | `no-store` – data fetched on every request |
+| **Static, never revalidate**                       | `cache: 'force-cache'` **or**  <br>`export const dynamic = 'force-static';` ¹ | Response cached until the next build       |
+| **Static + ISR** (Incremental Static Regeneration) | `next: { revalidate: 60 }` (seconds)                                          | Cache auto-refreshes after timeout         |
+| **Tag-based purge** (Edge **or** Node)             | `next: { tags: ['products'] }` + `revalidateTag('products')`                  | Granular purge without a full rebuild      |
+
+> ¹ `dynamic: 'force-static'` is a **file-level export** at the top of a page or Route Handler.
 
 ```typescript
-// src/app/products/page.tsx (Server Component)
+// app/products/page.tsx — React Server Component
+export const dynamic = 'force-static';   // opt-in to full static caching (remove if live)
+
+// Domain types
 interface Product {
   id: number;
   name: string;
   price: number;
 }
 
-async function getProducts(): Promise<Product[]> {
-  const res = await fetch('https://api.example.com/products', { cache: 'no-store' }); // Disable cache for fresh data
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
-  }
-  return res.json();
+/** Static roster (cached until rebuild or revalidate) */
+async function getProductsStatic(): Promise<Product[]> {
+  const res = await fetch('https://api.example.com/products', {
+    cache: 'force-cache',          // ✅ explicit opt-in
+  });
+  if (!res.ok) throw new Error('Failed to fetch products'); // ISR will serve last good cache
+  return res.json<Product[]>();    // keep TypeScript safety
+}
+
+/** Live roster (never cached) */
+async function getProductsLive(): Promise<Product[]> {
+  const res = await fetch('https://api.example.com/products'); // ⬅ default no-store
+  if (!res.ok) throw new Error('Failed to fetch products');
+  return res.json<Product[]>();
 }
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  // during dev we prefer live data; in prod we prefer static
+  const products =
+    process.env.NODE_ENV === 'development'
+      ? await getProductsLive()
+      : await getProductsStatic();
+
   return (
     <div className="p-8">
       <h2 className="text-3xl font-semibold">Products</h2>
       <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map(product => (
-          <li key={product.id} className="border p-4 rounded-lg">
-            <h3 className="text-xl font-bold">{product.name}</h3>
-            <p>${product.price.toFixed(2)}</p>
+        {products.map((p) => (
+          <li key={p.id} className="border p-4 rounded-lg">
+            <h3 className="text-xl font-bold">{p.name}</h3>
+            <p>${p.price.toFixed(2)}</p>
           </li>
         ))}
       </ul>
@@ -199,8 +226,14 @@ export default async function ProductsPage() {
   );
 }
 ```
-*   **Caching:** `fetch` requests are cached by default. Use `revalidate` option or `cache: 'no-store'` for dynamic content.
-*   **Important Note on Internal Data:** When fetching data that originates *within your Next.js application* (e.g., from a database or internal service logic that might otherwise be in a Route Handler), it's generally more efficient to call that data-fetching logic directly from the Server Component rather than making an internal `fetch` request to a Route Handler. This avoids an unnecessary network hop and keeps the server-side code execution purely on the server. The `fetch` function is primarily used here for external APIs or when you explicitly need Next.js's caching mechanisms for public-facing data.
+
+##### 5.2 Field notes & gotchas
+
+- **Internal data? Skip the network.** When the source lives inside your app (e.g., DB via Prisma), call that repository function directly from the Server Component or a shared util. Reserve `fetch()` for _external_ APIs or when you need Next.js cache keys.
+- **Route Handlers** now inherit the same default. Wrap expensive logic in `cache()` or export `dynamic = 'force-static'` if you want a GET handler to act like a CDN-friendly endpoint.
+- **Client Components** behave as in the browser—`fetch()` inside `useEffect` is still uncached. Prefer SWR / React Query for on-mount calls.
+- **Dev vs prod**: In `next dev`, HMR resets the cache; you’ll often see fresh data even when `force-cache` is set—don’t mistake this for a production bug.    
+- **Version control**: Pin `next@15` in `package.json` and run your full test suite after any minor update; caching defaults occasionally change between RC and stable.
 
 #### Client Components (For interactive data, e.g., search, pagination)
 
@@ -341,7 +374,6 @@ export async function POST(request: Request) {
 - React 19 Support: Support for React 19, React Compiler (Experimental), and hydration error improvements.
 - Turbopack Dev (Stable): Performance and stability improvements.
 - Static Indicator: New visual indicator shows static routes during development.
-- unstable_after API (Experimental): Execute code after a response finishes streaming.
 - instrumentation.js API (Stable): New API for server lifecycle observability.
 - Enhanced Forms (next/form): Enhance HTML forms with client-side navigation.
 - next.config: TypeScript support for next.config.ts.
