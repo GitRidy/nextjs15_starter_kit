@@ -95,9 +95,9 @@ PROJECT_ROOT/
 			ui_flow/		
 			wireframes/
 			architecture.md
-			components_guide.md
-			design_brief.md
-			design_tokens.json
+			components-guide.md
+			design-brief.md
+			design-tokens.json
 		guides/
 			guide.do-tasks.md
 			guide.list-tasks.md
@@ -105,10 +105,10 @@ PROJECT_ROOT/
 			guide.ux.md
 		prompts/
 		tasks/
-		plan.md
 		app-prd.md
 		app-tech-spec.md
 		app-vision.md
+		plan.md
 	.env.example
 	.env.local
 	.gitignore
@@ -116,6 +116,7 @@ PROJECT_ROOT/
 	concat_files.README.md
 	KIT_README.md
 	package.kit-extra.json
+	project_tree.txt
 	README.md
 ```
 
@@ -153,9 +154,9 @@ PROJECT_ROOT/
 - **ui_flow/**: Diagrams illustrating user journey through the application
 - **wireframes/**: Low-fidelity designs showing layout and user flow
 - [[architecture]]: Defines high-level architectural structure and key components
-- [[components_guide.md]]: Catalog of UI components with descriptions and usage guidelines
-- [[design_brief.md]]: High-level brief to set out aesthetic vision and principles to guide design
-- [[design_tokens.json]]: Design tokens for colors, typography, spacing, and other visual elements
+- [[components-guide]]: Catalog of UI components with descriptions and usage guidelines
+- [[design-brief.md]]: High-level brief to set out aesthetic vision and principles to guide design
+- [[design-tokens.json]]: Design tokens for colors, typography, spacing, and other visual elements
 
 #### docs/
 - **api/**: API-specific docs

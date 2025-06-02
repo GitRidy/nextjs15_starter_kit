@@ -20,9 +20,9 @@
 1. [ ] Wireframes
 2. [ ] Reference Examples or Mockups
 3. [ ] UI Flow
-4. [ ] `design_brief.md`
-5. [ ] `components_guide.md`
-6. [ ] `design_tokens.json`
+4. [ ] `design-brief.md`
+5. [ ] `components-guide.md`
+6. [ ] `design-tokens.json`
 7. [ ] `architecture.md`
 
 
@@ -52,5 +52,5 @@ Review task list and tweak if needed
 ## D3 - Do tasks
 
 ```prompt
-Please start on task 1.1 and use @guide-do-tasks.md
+Please start on task 1.1 and use @guide.do-tasks.md
 ```
