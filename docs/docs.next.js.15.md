@@ -57,20 +57,25 @@ export default function RootLayout({
 
 This is your homepage (`/`).
 
+For navigation within the Next.js app, always use next/link:
+
 ```typescript
 // src/app/page.tsx
+import Link from 'next/link'; // <--- Import Link
+
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">    
       <h1 className="text-4xl font-bold">Welcome to Next.js 15!</h1>
       <p className="mt-4 text-lg">Start building your application.</p>
       {/* Example link to another page */}
-      <a href="/dashboard" className="text-blue-500 hover:underline mt-8">Go to Dashboard</a>
+      <Link href="/dashboard" className="text-blue-500 hover:underline mt-8">
+        Go to Dashboard
+      </Link>
     </main>
   );
 }
 ```
-
 #### Nested Pages (`src/app/dashboard/page.tsx`)
 
 Create sub-pages by adding folders. For `example.com/dashboard`:
