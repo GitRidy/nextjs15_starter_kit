@@ -14,14 +14,18 @@ A lightweight project template for guiding development of small Next.js web apps
 # Phase A - Setup
 
 ## Initialize Project
+_Assuming Next.js 15, Typescript, Tailwind CSS_
 
 1. Create new `project_root` folder
 2. Open terminal in `project_root`
 3. Scaffold Next.js project:
 
 ```bash
-npx create-next-app@14.2.0 . --ts --eslint --tailwind --src-dir --app --use-pnpm
+npx create-next-app@latest . --ts --eslint --tailwind --src-dir --app --use-pnpm --import-alias "@/*"
 ```
+
+4. pnpm dev
+
 
 ## Copy Starter Kit
 
@@ -91,8 +95,9 @@ PROJECT_ROOT/
 			design_tokens.json
 		docs/
 			api/
-			docs.react.18.3.1.md
-			docs.next.js.14.2.0.md
+			docs.next.js.15.md
+			docs.next.js.15.standards.md
+			docs.next.js.15.mistakes.md
 		guides/
 			guide.next.js.14.2.0.md
 			guide.qa.md
@@ -100,11 +105,11 @@ PROJECT_ROOT/
 			guide.tasks.md
 			guide.ux.md
 		prompts/
+		tasks/
 		plan.md
-		prd.md
-		tasks.md
-		tech_spec.md
-		vision.md
+		app-prd.md
+		app-tech-spec.md
+		app-vision.md
 	.env.example
 	.env.local
 	.gitignore
@@ -139,17 +144,17 @@ PROJECT_ROOT/
 - **guides/**: Guidelines for developers working on the project
 - **prompts/**: Collection of LLM coding prompts in markdown
 - [[plan.md]]: Project phases, milestones, and timeline
-- [[prd.md]]: Product requirements document defining features and specifications
+- [[app-prd]]: Product requirements document defining features and specifications
 - [[tasks.md]]: Summary of current and planned development tasks
-- [[tech_spec.md]]: Technical specifications and architecture documentation
-- [[vision.md]]: Project vision, goals, and success criteria
+- [[app-tech-spec]]: Technical specifications and architecture documentation
+- [[app-vision]]: Project vision, goals, and success criteria
 
 #### pm/design/
 
 - **ref_examples/**: Reference examples from other applications for design inspiration
 - **ui_flow/**: Diagrams illustrating user journey through the application
 - **wireframes/**: Low-fidelity designs showing layout and user flow
-- [[architecture.md]]: Defines high-level architectural structure and key components
+- [[architecture]]: Defines high-level architectural structure and key components
 - [[components_guide.md]]: Catalog of UI components with descriptions and usage guidelines
 - [[design_brief.md]]: High-level brief to set out aesthetic vision and principles to guide design
 - [[design_tokens.json]]: Design tokens for colors, typography, spacing, and other visual elements

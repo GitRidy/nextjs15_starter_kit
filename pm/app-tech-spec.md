@@ -4,9 +4,10 @@
 - 
 
 # Tech Stack
-- Next.js 14.2.0
-- React 18.3.1
+- Next.js 15
+- React 19
 - Typescript
+- Tailwind CSS
 
 # Data Model
 - 
