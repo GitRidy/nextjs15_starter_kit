@@ -84,6 +84,11 @@ See `plan.md`
 ```structure
 PROJECT_ROOT/
 	.vscode/
+	docs/
+		api/
+		docs.next.js.15.md
+		docs.next.js.15.standards.md
+		docs.next.js.15.mistakes.md
 	pm/
 		design/
 			ref_examples/
@@ -93,16 +98,10 @@ PROJECT_ROOT/
 			components_guide.md
 			design_brief.md
 			design_tokens.json
-		docs/
-			api/
-			docs.next.js.15.md
-			docs.next.js.15.standards.md
-			docs.next.js.15.mistakes.md
 		guides/
-			guide.next.js.14.2.0.md
-			guide.qa.md
-			guide.react.18.3.1.md
-			guide.tasks.md
+			guide.do-tasks.md
+			guide.list-tasks.md
+			guide.make-prd.md
 			guide.ux.md
 		prompts/
 		tasks/
@@ -145,7 +144,6 @@ PROJECT_ROOT/
 - **prompts/**: Collection of LLM coding prompts in markdown
 - [[plan.md]]: Project phases, milestones, and timeline
 - [[app-prd]]: Product requirements document defining features and specifications
-- [[tasks.md]]: Summary of current and planned development tasks
 - [[app-tech-spec]]: Technical specifications and architecture documentation
 - [[app-vision]]: Project vision, goals, and success criteria
 
@@ -159,13 +157,22 @@ PROJECT_ROOT/
 - [[design_brief.md]]: High-level brief to set out aesthetic vision and principles to guide design
 - [[design_tokens.json]]: Design tokens for colors, typography, spacing, and other visual elements
 
+#### docs/
+- **api/**: API-specific docs
+- [[docs.next.js.15.md]]: High level coding guide for Next.js 15 framework
+- [[docs.next.js.15.mistakes.md]]: Common Next.js coding mistakes from Vercel
+- [[docs.next.js.15.standards.md]]: Next.js coding standards from Instruct AI
+
 #### pm/guides/
 
-- [[guide.next.js.14.2.0.md]]: Developer guide for Next.js framework.
-- [[guide.qa.md]]: Outlines testing strategies, error handling protocols, and quality monitoring practices to ensure reliable, production-ready code.
-- [[guide.react.18.3.1.md]]: Developer guide for React library
-- [[guide.tasks.md]]: General sequence for all sprints to follow
+- [[guide.do-tasks.md]]: Guide to LLMs for executing feature development tasks
+- [[guide.list-tasks.md]]: Guide to LLMs for listing tasks based on feature PRD
+- [[guide.make-prd.md]]: Guide to LLMs for creating a feature-specific PRD
 - [[guide.ux.md]]: Defines standards for creating responsive, accessible, and performant user experiences across all interaction touchpoints.
+
+#### pm/tasks/
+
+- Files for tracking development tasks by feature
 
 
 ## Credits

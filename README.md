@@ -13,8 +13,8 @@
 
 # 2. Tech Stack
 
-- Next.js 14.2.0
-- React 18.3.1
+- Next.js 15
+- React 19
 - Other key libraries/frameworks
 
 # 3. Installation

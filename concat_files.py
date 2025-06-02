@@ -2,8 +2,8 @@
 """
 Purpose: Enhanced script to concatenate files with specified extensions from a folder and its subfolders
          into a single text file with formatted output.
-Version: 1.0
-Updated: 2025-05-29
+Version: 1.01
+Updated: 2025-06-02
 Authors: JML with Claude Sonnet 4
 """
 
@@ -243,7 +243,7 @@ def main():
     )
     
     parser.add_argument(
-        "--out-name",
+        "--filename",
         help="Name for the combined output file (default: concat_files_YYYY-MM-DD.txt)",
         metavar="OUTPUT_FILENAME"
     )
@@ -291,11 +291,11 @@ def main():
         sys.exit(1)
 
     # Set default output filename if not provided
-    if args.out_name is None:
+    if args.filename is None:
         today = datetime.now().strftime("%Y-%m-%d")
         output_filename = f"concat_files_{today}.txt"
     else:
-        output_filename = args.out_name
+        output_filename = args.filename
         # Basic filename validation
         invalid_chars = '<>:"|?*'
         if any(char in output_filename for char in invalid_chars):

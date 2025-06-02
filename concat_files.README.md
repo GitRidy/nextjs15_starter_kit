@@ -36,7 +36,7 @@ python concat_files.py
 python concat_files.py --types py --levels 2
 
 # Combine multiple file types with custom output name
-python concat_files.py --types py js html --levels 1 --out-name my_code.txt
+python concat_files.py --types py js html --levels 1 --filename my_code.txt
 ```
 
 ## Usage
@@ -51,7 +51,7 @@ python concat_files.py [OPTIONS]
 | Option | Description | Default | Example |
 |--------|-------------|---------|---------|
 | `--path` | Path to source folder | `.` (current directory) | `--path /path/to/files` |
-| `--out-name` | Output filename | `concat_files_YYYY-MM-DD.txt` | `--out-name combined.txt` |
+| `--filename` | Output filename | `concat_files_YYYY-MM-DD.txt` | `--filename combined.txt` |
 | `--types` | File extensions to include | `txt md` | `--types py js html` |
 | `--levels` | Number of recursion levels | `0` (current dir only) | `--levels 2` |
 | `--sep1` | Separator under filename | `----` | `--sep1 "====="` |
@@ -93,7 +93,7 @@ python concat_files.py
 python concat_files.py --types py
 
 # Custom output filename
-python concat_files.py --out-name my_docs.txt
+python concat_files.py --filename my_docs.txt
 
 # Search subdirectories (1 level deep)
 python concat_files.py --levels 1
@@ -103,35 +103,35 @@ python concat_files.py --levels 1
 
 ```bash
 # Multiple file types, 2 levels deep
-python concat_files.py --types html css js --levels 2 --out-name website_code.txt
+python concat_files.py --types html css js --levels 2 --filename website_code.txt
 
 # Custom separators with escape sequences
 python concat_files.py --types log --sep1 "========" --sep2 "\\n=== NEXT FILE ===\\n"
 
 # Specific directory with custom settings
-python concat_files.py --path ./src --types py --levels 3 --out-name source_code.txt
+python concat_files.py --path ./src --types py --levels 3 --filename source_code.txt
 
 # Documentation bundle
-python concat_files.py --path ./docs --types md rst txt --levels 2 --out-name all_docs.txt
+python concat_files.py --path ./docs --types md rst txt --levels 2 --filename all_docs.txt
 ```
 
 ### Real-World Use Cases
 
 ```bash
 # Code review bundle (Python project)
-python concat_files.py --types py --levels 2 --out-name code_review.txt
+python concat_files.py --types py --levels 2 --filename code_review.txt
 
 # Website source code
-python concat_files.py --types html css js --levels 1 --out-name website_source.txt
+python concat_files.py --types html css js --levels 1 --filename website_source.txt
 
 # Configuration backup
-python concat_files.py --types conf cfg ini --out-name config_backup.txt
+python concat_files.py --types conf cfg ini --filename config_backup.txt
 
 # Documentation compilation
-python concat_files.py --path ./documentation --types md txt --levels 3 --out-name project_docs.txt
+python concat_files.py --path ./documentation --types md txt --levels 3 --filename project_docs.txt
 
 # Log file analysis
-python concat_files.py --types log --sep2 "\\n\\n=== NEXT LOG ===\\n\\n" --out-name all_logs.txt
+python concat_files.py --types log --sep2 "\\n\\n=== NEXT LOG ===\\n\\n" --filename all_logs.txt
 ```
 
 ## File Handling
@@ -186,7 +186,7 @@ When run without arguments, the script:
 **"Permission denied"**
 - Ensure you have read access to the source directory
 - Ensure you have write access to the current directory
-- Try specifying a different output location with `--out-name`
+- Try specifying a different output location with `--filename`
 
 **"Output filename contains invalid characters"**
 - Avoid characters like `< > : " | ? *` in the filename
