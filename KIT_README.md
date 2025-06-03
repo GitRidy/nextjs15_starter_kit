@@ -32,14 +32,12 @@ npx create-next-app@latest . --ts --eslint --tailwind --src-dir --app --use-pnpm
 1. Copy kit files to project (via temp folder):
 
 ```bash
-git clone https://github.com/GitRidy/next_js_starter_kit.git temp_kit
+git clone https://github.com/GitRidy/nextjs15_starter_kit.git temp_kit
 cp -r temp_kit/* .
 cp temp_kit/.* . 2>/dev/null || true
 rm -rf temp_kit
 rm -rf .git
 ```
-
-    _Note: degit expects public repo
 
 2. Merge scripts from `package.kit-extra.json` into `package.json`
 
@@ -65,11 +63,6 @@ git push -u origin main
 ## Save VS Code Workspace
 
 1. Make .vscode folder
-
-```bash
-mkdir .vscode
-```
-
 2. Save workspace there
 
 ## Phase B - Planning
